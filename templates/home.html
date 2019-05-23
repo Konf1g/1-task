@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    Главная
+{% endblock %}
+
+{% block content %}
+    <script src= {% static "js/jquery-3.2.1.js" %}></script>
+    <script src= {% static 'js/audio.min.js' %}></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+
+    <div>
+        <div>{{ newLink }}</div>
+
+        <div>
+
+            <ul>
+                <li>
+                    <br>
+                    <br>
+
+                    {% if user.username %}
+                        <p align="center">Добро Пожаловать, {{ user.username }}</p>
+                    {% else %}
+                        <p align="center">Добро Пожаловать!</p>
+                    {% endif %}
+                    <br>
+                    <br>
+                    {% if user.username %}
+                        <a href="{% url 'logout' %}"></a>
+                    {% else %}
+                        <p align="center"><a href="{% url 'login' %}">Войдите</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;или&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="{% url 'registration' %}">Зарегистрируйтесь</a></p>
+                    {% endif %}
+                </li>
+
+            </ul>
+        </div>
+
+        <div>
+
+
+            {#            <form method="POST" class="post-form" action="/shortener/new/">#}
+            {% csrf_token %}
+            {#    {{ form.as_p }}#}
+            <div>
+                <label for="link">Url: </label>
+                <input id="link" name="text" type="text" name="text">
+            </div>
+            <div>
+                <input type="submit" value="Shorten"
+                       accesskey="s" id="submit">
+            </div>
+            {#            </form>#}
+            <a id="new_link"></a>
+        </div>
+    </div>
+    <script>
+        $("#submit").click(function () {
+            let link = document.getElementById('link');
+            $.ajax({
+                method: "GET",
+                url: "shortener/new/",
+                dataType: 'html',
+                data: ({'link': link.value}),
+                success: function (data) {
+                    var a = document.getElementById('new_link');
+                    $('#new_link').html(data);
+                    console.log(data);
+                    a.setAttribute('href', "http://facebook.com");
+                }
+            })
+        })
+    </script>
+{% endblock %}
