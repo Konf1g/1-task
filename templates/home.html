@@ -11,7 +11,7 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
 
     <div>
-        <div>{{ newLink }}</div>
+       <div>{{ newLink }}</div>
 
         <div>
 
@@ -46,14 +46,14 @@
             {#    {{ form.as_p }}#}
             <div>
                 <label for="link">Url: </label>
-                <input id="link" name="text" type="text" name="text">
+                <input id="link" name="text" type="text"  size="60" >
             </div>
             <div>
                 <input type="submit" value="Shorten"
                        accesskey="s" id="submit">
             </div>
             {#            </form>#}
-            <a id="new_link"></a>
+            <div id="new_link"></div>
         </div>
     </div>
     <script>
@@ -65,10 +65,9 @@
                 dataType: 'html',
                 data: ({'link': link.value}),
                 success: function (data) {
-                    var a = document.getElementById('new_link');
-                    $('#new_link').html(data);
                     console.log(data);
-                    a.setAttribute('href', "http://facebook.com");
+                    <!-- $('#new_link').html(data); -->
+                    $('input[name=text]').val(data);
                 }
             })
         })
